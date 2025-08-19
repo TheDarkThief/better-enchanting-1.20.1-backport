@@ -45,8 +45,8 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
     private static final Identifier BOOK_GRAY_OVERLAY = Utils.id("container/enchanting_table/book_gray_overlay");
     private static final Identifier ENCHANTING_TABLE_BACKGROUND = Utils.id("textures/gui/container/custom_enchanting_table.png");
     private static final Identifier MAGIC_SHARD_FULL = Utils.id("container/enchanting_table/magic_shard_full");
-    private static final Identifier BOOK_TEXTURE = Identifier.ofVanilla("textures/entity/enchanting_table_book.png");
-    private static final Identifier CHECKMARK = Identifier.ofVanilla("icon/checkmark");
+    private static final Identifier BOOK_TEXTURE = Identifier.tryParse("textures/entity/enchanting_table_book.png");
+    private static final Identifier CHECKMARK = Identifier.tryParse("icon/checkmark");
     private final Random random = Random.create();
     private BookModel BOOK_MODEL;
     public int ticks;
@@ -135,13 +135,13 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
 
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
         super.drawForeground(context,mouseX,mouseY);
-        if(!client.player.isInCreativeMode())
+        if(!client.player.isCreative())
             context.drawText(this.textRenderer, Text.of("XP : "+this.client.player.experienceLevel),10, 74, Colors.GREEN, true);
 
         int localWidth = (this.width - this.backgroundWidth) / 2;
         int localHeight = (this.height - this.backgroundHeight) / 2;
 
-        boolean playerInCreative = client.player.isInCreativeMode();
+        boolean playerInCreative = client.player.isCreative();
         int q = Colors.GREEN;
 
         int numberOfPossibleEnchants = 0;
@@ -154,7 +154,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
             if(this.client.player.experienceLevel < CustomEnchantmentScreenHandler.SHARD_FILLING_EXPERIENCE_COST)
                 q = Colors.RED;
 
-            context.drawGuiTexture(MAGIC_SHARD_FULL, 72,14,16,16);
+            context.drawTexture(MAGIC_SHARD_FULL, 72,14,16,16, 16, 16);
 
             if(!playerInCreative)
                 context.drawTextWithShadow(this.textRenderer, ""+CustomEnchantmentScreenHandler.SHARD_FILLING_EXPERIENCE_COST, 18+72 - this.textRenderer.getWidth(""+CustomEnchantmentScreenHandler.SHARD_FILLING_EXPERIENCE_COST), 14+8, q);
@@ -192,7 +192,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
                         int enchantLevelCost = ModEnchantmentHelper.getEnchantmentLevelCost(enchant.get().value(),l+1, stack, playerWorld);
                         int enchantLevelReq = ModEnchantmentHelper.getEnchantmentLeveRequierment(enchant.get().value(),l);
                         RegistryEntry<Enchantment> enchantEntry = this.client.world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(enchant.get().value());
-                        boolean hasEnchantLevel = EnchantmentHelper.getLevel(enchantEntry,stack)>=l+1;
+                        boolean hasEnchantLevel = EnchantmentHelper.getLevel(enchantEntry.value(),stack)>=l+1;
 
                         /*if (r >= 0 && s >= 0 && r < 15 && s < 15 && !hasEnchantLevel) {
                             //bookToDraw = ENCHANTMENT_BOOK_HIGHLIGHTED;
@@ -217,7 +217,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
 
                         //Draw the enchanted book texture.
                         ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
-                        enchantedBook.addEnchantment(enchantEntry, l+1);
+                        enchantedBook.addEnchantment(enchantEntry.value(), l+1);
                         //context.drawGuiTexture(bookToDraw, localWidth+72+(16*l)+(4*l), localHeight+14+(16*(k-indexStartOffset)), 16, 16);
 
                         if(hasEnchantLevel){
@@ -237,7 +237,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
 
                         context.getMatrices().push();
                         context.getMatrices().translate(0,0,350);
-                        if(!this.client.player.isInCreativeMode() && bookToDraw != ENCHANTMENT_BOOK_DISABLED && !hasEnchantLevel)
+                        if(!this.client.player.isCreative() && bookToDraw != ENCHANTMENT_BOOK_DISABLED && !hasEnchantLevel)
                             context.drawTextWithShadow(this.textRenderer, ""+enchantLevelCost, 18+72+(16*l)+(4*l) - this.textRenderer.getWidth(""+enchantLevelCost), 14+8+(16*(k-indexStartOffset)), q);
                         context.getMatrices().pop();
 
@@ -253,7 +253,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
         int localHeight = (this.height - this.backgroundHeight) / 2;
         context.drawTexture(ENCHANTING_TABLE_BACKGROUND, localWidth, localHeight, 0, 0, this.backgroundWidth, this.backgroundHeight);
         this.drawBook(context, localWidth-3 , localHeight+24, delta);
-        boolean playerInCreative = client.player.isInCreativeMode();
+        boolean playerInCreative = client.player.isCreative();
         int q = 8453920;
 
         int numberOfPossibleEnchants = 0;
@@ -328,7 +328,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
         float k = MathHelper.clamp(MathHelper.fractionalPart(g + 0.75F) * 1.6F - 0.3F, 0.0F, 1.0F);
         this.BOOK_MODEL.setPageAngles(0.0F, j, k, f);
         VertexConsumer vertexConsumer = context.getVertexConsumers().getBuffer(this.BOOK_MODEL.getLayer(BOOK_TEXTURE));
-        this.BOOK_MODEL.render(context.getMatrices(), vertexConsumer, 15728880, OverlayTexture.DEFAULT_UV);
+        this.BOOK_MODEL.render(context.getMatrices(), vertexConsumer, 15728880, OverlayTexture.DEFAULT_UV, 1,1,1,1);
         context.draw();
         context.getMatrices().pop();
         DiffuseLighting.enableGuiDepthLighting();
@@ -404,10 +404,10 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
                             List<Text> list = Lists.newArrayList();
 
                             //Add name to tooltip
-                            mutableText = Text.translatable(Enchantment.getName(enchant.get(), displayedEnchantLevel).getString()).formatted(Formatting.WHITE);
+                            mutableText = Text.translatable(enchant.get().value().getName(displayedEnchantLevel).getString()).formatted(Formatting.WHITE);
                             list.add(mutableText);
 
-                            boolean hasEnchantLevel = EnchantmentHelper.getLevel(enchantEntry,stack)>=l+1;
+                            boolean hasEnchantLevel = EnchantmentHelper.getLevel(enchantEntry.value(),stack)>=l+1;
 
                             ItemStack enchantIngredientStack;
 

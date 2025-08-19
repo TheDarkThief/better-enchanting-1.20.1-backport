@@ -132,7 +132,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
 
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
         super.drawForeground(context,mouseX,mouseY);
-        if(!client.player.isInCreativeMode())
+        if(!client.player.isCreative())
             context.drawText(this.textRenderer, Text.of("XP : "+this.client.player.experienceLevel),10, 74, Colors.GREEN, true);
 
     }
@@ -142,7 +142,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
         int localHeight = (this.height - this.backgroundHeight) / 2;
         context.drawTexture(TEXTURE, localWidth, localHeight, 0, 0, this.backgroundWidth, this.backgroundHeight);
         this.drawBook(context, localWidth-3 , localHeight+24, delta);
-        boolean playerInCreative = client.player.isInCreativeMode();
+        boolean playerInCreative = client.player.isCreative();
         int q = 8453920;
 
         int numberOfPossibleEnchants = 0;
@@ -224,7 +224,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
                         }
 
                         context.drawTexture(TEXTURE, localWidth+68+(16*l)+(4*l), localHeight+14+(16*(k-indexStartOffset)), 198, 0, 4,16);
-                        if(!this.client.player.isInCreativeMode() && bookToDraw != ENCHANTMENT_BOOK_DISABLED && !hasEnchantLevel)
+                        if(!this.client.player.isCreative() && bookToDraw != ENCHANTMENT_BOOK_DISABLED && !hasEnchantLevel)
                             context.drawTextWithShadow(this.textRenderer, ""+enchantLevelCost, localWidth+18+72+(16*l)+(4*l) - this.textRenderer.getWidth(""+enchantLevelCost), localHeight+14+8+(16*(k-indexStartOffset)), q);
 
                         context.drawGuiTexture(bookToDraw, localWidth+72+(16*l)+(4*l), localHeight+14+(16*(k-indexStartOffset)), 16, 16);

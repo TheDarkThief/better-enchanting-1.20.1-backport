@@ -190,11 +190,11 @@ public class CustomEnchantmentScreenHandler extends ScreenHandler {
                     return false;
 
 
-                if ((lapisStack.isEmpty() || lapisStack.getCount() < lapisCost) && !player.isInCreativeMode()) {
+                if ((lapisStack.isEmpty() || lapisStack.getCount() < lapisCost) && !player.isCreative()) {
                     return false;
-                } else if (itemToEnchant.isEmpty() || (player.experienceLevel < enchantLevelCost || player.experienceLevel < enchantLevReq) && !player.isInCreativeMode()) {
+                } else if (itemToEnchant.isEmpty() || (player.experienceLevel < enchantLevelCost || player.experienceLevel < enchantLevReq) && !player.isCreative()) {
                     return false;
-                }else if((getSlot(2).getStack().getItem() != enchantIngredient || getSlot(2).getStack().getCount() < enchantIngredientCost) && !player.isInCreativeMode()){
+                }else if((getSlot(2).getStack().getItem() != enchantIngredient || getSlot(2).getStack().getCount() < enchantIngredientCost) && !player.isCreative()){
                     return false;
                 }else{
                     //can enchant
@@ -202,7 +202,7 @@ public class CustomEnchantmentScreenHandler extends ScreenHandler {
                         RegistryEntry<Enchantment> enchantEntry = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(enchant.get().value());
 
                         //ItemStack itemToEnchantCopy = itemToEnchant;
-                        if(!player.isInCreativeMode())
+                        if(!player.isCreative())
                             player.applyEnchantmentCosts(itemToEnchant, enchantLevelCost);
                         itemToEnchant.addEnchantment(enchantEntry, displayedEnchantLevel);
 
@@ -236,16 +236,16 @@ public class CustomEnchantmentScreenHandler extends ScreenHandler {
             ItemStack itemToEnchant = this.inventory.getStack(0);
             ItemStack lapisStack = this.inventory.getStack(1);
 
-            if ((lapisStack.isEmpty() || lapisStack.getCount() < SHARD_FILLING_LAPIS_COST) && !player.isInCreativeMode()) {
+            if ((lapisStack.isEmpty() || lapisStack.getCount() < SHARD_FILLING_LAPIS_COST) && !player.isCreative()) {
                 return false;
-            } else if (itemToEnchant.isEmpty() || (player.experienceLevel < SHARD_FILLING_EXPERIENCE_COST) && !player.isInCreativeMode()) {
+            } else if (itemToEnchant.isEmpty() || (player.experienceLevel < SHARD_FILLING_EXPERIENCE_COST) && !player.isCreative()) {
                 return false;
             }else {
                 this.context.run((world, pos) -> {
                     this.inventory.setStack(0, new ItemStack(ModItems.MAGIC_SHARD_FULL,1));
 
                     lapisStack.decrementUnlessCreative(SHARD_FILLING_LAPIS_COST, player);
-                    if(!player.isInCreativeMode())
+                    if(!player.isCreative())
                         player.applyEnchantmentCosts(itemToEnchant, SHARD_FILLING_EXPERIENCE_COST);
 
                     this.inventory.markDirty();

@@ -109,7 +109,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandlerMixin{
                 input.setStack(1, ItemStack.EMPTY);
 
             //int levelCost = ModEnchantmentHelper.getCatalystEnchantmentCost(stack);
-            if (!player.isInCreativeMode())
+            if (!player.isCreative())
                 player.addExperienceLevels(-betterEnchanting$customCost);
             ci.cancel();
         }
@@ -153,6 +153,6 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandlerMixin{
 
     @Inject(method = "canTakeOutput", at = @At("HEAD"), cancellable = true)
     public void betterEnchanting$canTakeFreeOutput(PlayerEntity player, boolean present, CallbackInfoReturnable<Boolean> cir){
-        cir.setReturnValue((player.isInCreativeMode() || player.experienceLevel >= this.levelCost.get()) && this.levelCost.get() >= 0);
+        cir.setReturnValue((player.isCreative() || player.experienceLevel >= this.levelCost.get()) && this.levelCost.get() >= 0);
     }
 }
