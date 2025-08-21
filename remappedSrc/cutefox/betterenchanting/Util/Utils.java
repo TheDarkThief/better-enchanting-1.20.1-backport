@@ -8,11 +8,11 @@ public class Utils {
     private static DynamicRegistryManager registryManager;
 
     public static Identifier id(String path) {
-        return Identifier.of("betterenchanting", path);
+        return Identifier.tryParse("betterenchanting", path);
     }
 
     public static Identifier id() {
-        return Identifier.of("betterenchanting");
+        return Identifier.tryParse("betterenchanting");
     }
 
 

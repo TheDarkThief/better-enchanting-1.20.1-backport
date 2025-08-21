@@ -12,7 +12,7 @@ public class Utils {
     }
 
     public static Identifier id() {
-        return Identifier.of("betterenchanting");
+        return Identifier.tryParse("betterenchanting");
     }
 
 

@@ -24,7 +24,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.registry.tag.EnchantmentTags;
+// Didn't exisit in 1.20.1
+// import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
@@ -116,44 +117,56 @@ public class ModEnchantmentHelper {
         if(itemToEnchant.isOf(Items.BOOK))
             return List.of();
 
-        Optional<RegistryEntryList.Named<Enchantment>> enchantingTableList = registryManager.get(RegistryKeys.ENCHANTMENT).getEntryList(EnchantmentTags.IN_ENCHANTING_TABLE);
-        Optional<RegistryEntryList.Named<Enchantment>> treasureList = registryManager.get(RegistryKeys.ENCHANTMENT).getEntryList(EnchantmentTags.TREASURE);
+        // Finds all enchants that are NOT considered treasure
+        ArrayList<Enchantment> enchantingTableList = new ArrayList<Enchantment>();
+        registryManager.get(RegistryKeys.ENCHANTMENT).iterator().forEachRemaining((testEnchant)->{
+            if (!testEnchant.isTreasure()){
+                enchantingTableList.add(testEnchant);
+            }
+        });
+        // Finds all enchants that are considered treasure
+        ArrayList<Enchantment> treasureList = new ArrayList<Enchantment>();
+        registryManager.get(RegistryKeys.ENCHANTMENT).iterator().forEachRemaining((testEnchant)->{
+            if (testEnchant.isTreasure()){
+                treasureList.add(testEnchant);
+            }
+        });
 
-        Stream <RegistryEntry<Enchantment>> concatEnchantList;
+        Stream <Enchantment> concatEnchantList;
         List<EnchantmentLevelEntry> list = Lists.newArrayList();
 
         if(enchantingTableList.isEmpty())
             return list;
 
         if(!treasureList.isEmpty())
-            concatEnchantList = Stream.concat(enchantingTableList.get().stream(), treasureList.get().stream());
+            concatEnchantList = Stream.concat(enchantingTableList.stream(), treasureList.stream());
         else
-            concatEnchantList = enchantingTableList.get().stream();
+            concatEnchantList = enchantingTableList.stream();
 
-        List<RegistryKey<Enchantment>> swordEnchants = new ArrayList<>();
+        List<Enchantment> swordEnchants = new ArrayList<>();
 
 
         swordEnchants.add(Enchantments.FIRE_ASPECT);
         swordEnchants.add(Enchantments.LOOTING);
         swordEnchants.add(Enchantments.KNOCKBACK);
         //TODO: ADD MODDED SWORD ENCHANTS
-        //swordEnchants.add(RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of("mod_identifier:moded_enchant")));
+        //swordEnchants.add(RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.tryParse("mod_identifier:moded_enchant")));
 
         concatEnchantList.distinct()
                 .filter(enchant -> {
                         boolean validEnchant;
-                        if(enchant.isIn(EnchantmentTags.CURSE))
+                        if(enchant.isCursed())
                             return false;
-                        validEnchant = enchant.value().isAcceptableItem(itemToEnchant);
-                        if(validEnchant == false && itemToEnchant.isIn(ItemTags.AXES) && swordEnchants.contains(enchant.getKey().get()))
+                        validEnchant = enchant.isAcceptableItem(itemToEnchant);
+                        if(validEnchant == false && itemToEnchant.isIn(ItemTags.AXES) && swordEnchants.contains(enchant))
                             validEnchant = true;
-                        if(GlobalConfig.disabledEnchants.contains(enchant.getKey().get().getValue()))
+                        if(GlobalConfig.disabledEnchants.contains(enchant))
                             return false;
                         return validEnchant;
                 })
                 .forEach(enchant -> {
 
-                    Enchantment enchantmentValue = enchant.value();
+                    Enchantment enchantmentValue = enchant;
 
                     if(isCompatible(itemToEnchant.getEnchantments().getEnchantments(), enchant)){
                         for(int j = enchantmentValue.getMaxLevel(); j >= enchantmentValue.getMinLevel(); --j) {
@@ -171,7 +184,7 @@ public class ModEnchantmentHelper {
 
     public static boolean itemHasPreviousLevelOfEnchant(ItemStack stack, RegistryEntry<Enchantment> enchant, int targetLevel){
 
-        int currentEnchantLevel = EnchantmentHelper.getLevel(enchant,stack);
+        int currentEnchantLevel = EnchantmentHelper.getLevel(enchant.value(),stack);
         return currentEnchantLevel == targetLevel;
 
     }

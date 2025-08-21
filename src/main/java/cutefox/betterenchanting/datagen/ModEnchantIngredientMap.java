@@ -16,7 +16,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
@@ -41,62 +40,63 @@ public class ModEnchantIngredientMap {
 
     static{
         //Armor enchantment
-        defaultMap.put(Enchantments.PROTECTION.getValue().toString(), listOfIdentifiers(List.of(Items.COPPER_INGOT,Items.IRON_INGOT,Items.DIAMOND, ModItems.ESSENCE_OF_PROTECTION)));
-        defaultMap.put(Enchantments.FIRE_PROTECTION.getValue().toString(), listOfIdentifiers(List.of(Items.MAGMA_BLOCK,Items.MAGMA_CREAM,Items.LAVA_BUCKET,ModItems.ESSENCE_OF_FIRE_PROTECTION)));
-        defaultMap.put(Enchantments.FEATHER_FALLING.getValue().toString(), listOfIdentifiers(List.of(Items.FEATHER,Items.PHANTOM_MEMBRANE,Items.WIND_CHARGE,ModItems.ESSENCE_OF_FEATHER)));
-        defaultMap.put(Enchantments.BLAST_PROTECTION.getValue().toString(), listOfIdentifiers(List.of(Items.GUNPOWDER, Items.TNT, Items.CREEPER_HEAD, ModItems.ESSENCE_OF_BLAST_PROTECTION)));
-        defaultMap.put(Enchantments.PROJECTILE_PROTECTION.getValue().toString(), listOfIdentifiers(List.of(Items.LEATHER,Items.BRICK,Items.IRON_BARS,ModItems.ESSENCE_OF_PROJECTILE_PROTECTION)));
-        defaultMap.put(Enchantments.RESPIRATION.getValue().toString(), listOfIdentifiers(List.of(Items.PUFFERFISH,Items.TURTLE_SCUTE,ModItems.ESSENCE_OF_RESPIRATION)));
-        defaultMap.put(Enchantments.AQUA_AFFINITY.getValue().toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_SEA)));
-        defaultMap.put(Enchantments.THORNS.getValue().toString(), listOfIdentifiers(List.of(Items.CACTUS,Items.PUFFERFISH_BUCKET,ModItems.ESSENCE_OF_THORN)));
-        defaultMap.put(Enchantments.DEPTH_STRIDER.getValue().toString(), listOfIdentifiers(List.of(Items.COD,Items.SPONGE, ModItems.ESSENCE_OF_SEA)));
-        defaultMap.put(Enchantments.FROST_WALKER.getValue().toString(), listOfIdentifiers(List.of(Items.BLUE_ICE,ModItems.ESSENCE_OF_ICE))); //Treasure
-        defaultMap.put(Enchantments.SOUL_SPEED.getValue().toString(), listOfIdentifiers(List.of(ModItems.SOUL_ESSENCE_1,ModItems.SOUL_ESSENCE_2,ModItems.SOUL_ESSENCE_3))); //Treasure
-        defaultMap.put(Enchantments.SWIFT_SNEAK.getValue().toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_SNEAK_1,ModItems.ESSENCE_OF_SNEAK_2,ModItems.ESSENCE_OF_SNEAK_3))); //Treasure
+        defaultMap.put(Enchantments.PROTECTION.toString(), listOfIdentifiers(List.of(Items.COPPER_INGOT,Items.IRON_INGOT,Items.DIAMOND, ModItems.ESSENCE_OF_PROTECTION)));
+        defaultMap.put(Enchantments.FIRE_PROTECTION.toString(), listOfIdentifiers(List.of(Items.MAGMA_BLOCK,Items.MAGMA_CREAM,Items.LAVA_BUCKET,ModItems.ESSENCE_OF_FIRE_PROTECTION)));
+        defaultMap.put(Enchantments.FEATHER_FALLING.toString(), listOfIdentifiers(List.of(Items.FEATHER,Items.PHANTOM_MEMBRANE,ModItems.ESSENCE_OF_FEATHER)));
+        defaultMap.put(Enchantments.BLAST_PROTECTION.toString(), listOfIdentifiers(List.of(Items.GUNPOWDER, Items.TNT, Items.CREEPER_HEAD, ModItems.ESSENCE_OF_BLAST_PROTECTION)));
+        defaultMap.put(Enchantments.PROJECTILE_PROTECTION.toString(), listOfIdentifiers(List.of(Items.LEATHER,Items.BRICK,Items.IRON_BARS,ModItems.ESSENCE_OF_PROJECTILE_PROTECTION)));
+        defaultMap.put(Enchantments.RESPIRATION.toString(), listOfIdentifiers(List.of(Items.PUFFERFISH,Items.SCUTE,ModItems.ESSENCE_OF_RESPIRATION)));
+        defaultMap.put(Enchantments.AQUA_AFFINITY.toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_SEA)));
+        defaultMap.put(Enchantments.THORNS.toString(), listOfIdentifiers(List.of(Items.CACTUS,Items.PUFFERFISH_BUCKET,ModItems.ESSENCE_OF_THORN)));
+        defaultMap.put(Enchantments.DEPTH_STRIDER.toString(), listOfIdentifiers(List.of(Items.COD,Items.SPONGE, ModItems.ESSENCE_OF_SEA)));
+        defaultMap.put(Enchantments.FROST_WALKER.toString(), listOfIdentifiers(List.of(Items.BLUE_ICE,ModItems.ESSENCE_OF_ICE))); //Treasure
+        defaultMap.put(Enchantments.SOUL_SPEED.toString(), listOfIdentifiers(List.of(ModItems.SOUL_ESSENCE_1,ModItems.SOUL_ESSENCE_2,ModItems.SOUL_ESSENCE_3))); //Treasure
+        defaultMap.put(Enchantments.SWIFT_SNEAK.toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_SNEAK_1,ModItems.ESSENCE_OF_SNEAK_2,ModItems.ESSENCE_OF_SNEAK_3))); //Treasure
 
         //Sword enchantment
-        defaultMap.put(Enchantments.SHARPNESS.getValue().toString(), listOfIdentifiers(List.of(Items.FLINT,Items.IRON_SWORD,Items.GRINDSTONE,Items.DIAMOND,ModItems.ESSENCE_OF_SHARPNESS)));
-        defaultMap.put(Enchantments.SMITE.getValue().toString(), listOfIdentifiers(List.of(Items.ROTTEN_FLESH,Items.GLOWSTONE,Items.QUARTZ,Items.AMETHYST_SHARD,ModItems.ESSENCE_OF_SMITE)));
-        defaultMap.put(Enchantments.BANE_OF_ARTHROPODS.getValue().toString(), listOfIdentifiers(List.of(Items.SHEARS,Items.SPIDER_EYE,Items.COBWEB,Items.FERMENTED_SPIDER_EYE,ModItems.ESSENCE_OF_ARTHROPODS)));
-        defaultMap.put(Enchantments.KNOCKBACK.getValue().toString(), listOfIdentifiers(List.of(Items.PISTON, ModItems.ESSENCE_OF_KNOCKBACK)));
-        defaultMap.put(Enchantments.FIRE_ASPECT.getValue().toString(), listOfIdentifiers(List.of(Items.FIRE_CHARGE,ModItems.ESSENCE_OF_FIRE)));
-        defaultMap.put(Enchantments.LOOTING.getValue().toString(), listOfIdentifiers(List.of(Items.EMERALD,Items.SPORE_BLOSSOM,ModItems.ESSENCE_OF_LOOTING)));
-        defaultMap.put(Enchantments.SWEEPING_EDGE.getValue().toString(), listOfIdentifiers(List.of(Items.IRON_BARS,Items.OBSIDIAN,ModItems.ESSENCE_OF_SWEEPING)));
+        defaultMap.put(Enchantments.SHARPNESS.toString(), listOfIdentifiers(List.of(Items.FLINT,Items.IRON_SWORD,Items.GRINDSTONE,Items.DIAMOND,ModItems.ESSENCE_OF_SHARPNESS)));
+        defaultMap.put(Enchantments.SMITE.toString(), listOfIdentifiers(List.of(Items.ROTTEN_FLESH,Items.GLOWSTONE,Items.QUARTZ,Items.AMETHYST_SHARD,ModItems.ESSENCE_OF_SMITE)));
+        defaultMap.put(Enchantments.BANE_OF_ARTHROPODS.toString(), listOfIdentifiers(List.of(Items.SHEARS,Items.SPIDER_EYE,Items.COBWEB,Items.FERMENTED_SPIDER_EYE,ModItems.ESSENCE_OF_ARTHROPODS)));
+        defaultMap.put(Enchantments.KNOCKBACK.toString(), listOfIdentifiers(List.of(Items.PISTON, ModItems.ESSENCE_OF_KNOCKBACK)));
+        defaultMap.put(Enchantments.FIRE_ASPECT.toString(), listOfIdentifiers(List.of(Items.FIRE_CHARGE,ModItems.ESSENCE_OF_FIRE)));
+        defaultMap.put(Enchantments.LOOTING.toString(), listOfIdentifiers(List.of(Items.EMERALD,Items.SPORE_BLOSSOM,ModItems.ESSENCE_OF_LOOTING)));
+        defaultMap.put(Enchantments.SWEEPING.toString(), listOfIdentifiers(List.of(Items.IRON_BARS,Items.OBSIDIAN,ModItems.ESSENCE_OF_SWEEPING)));
 
         //Bow enchantment
-        defaultMap.put(Enchantments.POWER.getValue().toString(), listOfIdentifiers(List.of(Items.SNOWBALL,Items.LEATHER,Items.GHAST_TEAR,Items.SHULKER_SHELL,ModItems.ESSENCE_OF_POWER)));
-        defaultMap.put(Enchantments.PUNCH.getValue().toString(), listOfIdentifiers(List.of(Items.DEEPSLATE,ModItems.ESSENCE_OF_PUNCH)));
-        defaultMap.put(Enchantments.FLAME.getValue().toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_FIRE)));
-        defaultMap.put(Enchantments.INFINITY.getValue().toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_ARROWS)));
+        defaultMap.put(Enchantments.POWER.toString(), listOfIdentifiers(List.of(Items.SNOWBALL,Items.LEATHER,Items.GHAST_TEAR,Items.SHULKER_SHELL,ModItems.ESSENCE_OF_POWER)));
+        defaultMap.put(Enchantments.PUNCH.toString(), listOfIdentifiers(List.of(Items.DEEPSLATE,ModItems.ESSENCE_OF_PUNCH)));
+        defaultMap.put(Enchantments.FLAME.toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_FIRE)));
+        defaultMap.put(Enchantments.INFINITY.toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_ARROWS)));
 
         //Tool enchantement
-        defaultMap.put(Enchantments.EFFICIENCY.getValue().toString(), listOfIdentifiers(List.of(Items.FLINT,Items.GOLDEN_APPLE,Items.OBSIDIAN,Items.CHORUS_FRUIT,ModItems.ESSENCE_OF_EFFICIENCY)));
-        defaultMap.put(Enchantments.SILK_TOUCH.getValue().toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_SILK_TOUCH)));
-        defaultMap.put(Enchantments.FORTUNE.getValue().toString(), listOfIdentifiers(List.of(Items.GOLD_BLOCK,Items.EMERALD_BLOCK,ModItems.ESSENCE_OF_FORTUNE)));
+        defaultMap.put(Enchantments.EFFICIENCY.toString(), listOfIdentifiers(List.of(Items.FLINT,Items.GOLDEN_APPLE,Items.OBSIDIAN,Items.CHORUS_FRUIT,ModItems.ESSENCE_OF_EFFICIENCY)));
+        defaultMap.put(Enchantments.SILK_TOUCH.toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_SILK_TOUCH)));
+        defaultMap.put(Enchantments.FORTUNE.toString(), listOfIdentifiers(List.of(Items.GOLD_BLOCK,Items.EMERALD_BLOCK,ModItems.ESSENCE_OF_FORTUNE)));
 
         //Fishing tool enchantment
-        defaultMap.put(Enchantments.LUCK_OF_THE_SEA.getValue().toString(), listOfIdentifiers(List.of(Items.NAUTILUS_SHELL,Items.HEART_OF_THE_SEA,ModItems.ESSENCE_OF_SEA_LUCK)));
-        defaultMap.put(Enchantments.LURE.getValue().toString(), listOfIdentifiers(List.of(Items.CARROT_ON_A_STICK,Items.BREAD,ModItems.ESSENCE_OF_LURE)));
+        defaultMap.put(Enchantments.LUCK_OF_THE_SEA.toString(), listOfIdentifiers(List.of(Items.NAUTILUS_SHELL,Items.HEART_OF_THE_SEA,ModItems.ESSENCE_OF_SEA_LUCK)));
+        defaultMap.put(Enchantments.LURE.toString(), listOfIdentifiers(List.of(Items.CARROT_ON_A_STICK,Items.BREAD,ModItems.ESSENCE_OF_LURE)));
 
         //Anything enchantment
-        defaultMap.put(Enchantments.UNBREAKING.getValue().toString(), listOfIdentifiers(List.of(Items.DIAMOND,Items.CRYING_OBSIDIAN, ModItems.ESSENCE_OF_UNBREAKING)));
-        defaultMap.put(Enchantments.MENDING.getValue().toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_MENDING))); //Treasure
+        defaultMap.put(Enchantments.UNBREAKING.toString(), listOfIdentifiers(List.of(Items.DIAMOND,Items.CRYING_OBSIDIAN, ModItems.ESSENCE_OF_UNBREAKING)));
+        defaultMap.put(Enchantments.MENDING.toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_MENDING))); //Treasure
 
         //Trident enchantment
-        defaultMap.put(Enchantments.CHANNELING.getValue().toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_CHANNELING)));
-        defaultMap.put(Enchantments.IMPALING.getValue().toString(), listOfIdentifiers(List.of(Items.POINTED_DRIPSTONE,Items.IRON_BARS,Items.QUARTZ,Items.DIAMOND_SWORD,ModItems.ESSENCE_OF_IMPALING)));
-        defaultMap.put(Enchantments.LOYALTY.getValue().toString(), listOfIdentifiers(List.of(Items.BONE_BLOCK,Items.GOLDEN_CARROT,ModItems.ESSENCE_OF_LOYALTY)));
-        defaultMap.put(Enchantments.RIPTIDE.getValue().toString(), listOfIdentifiers(List.of(Items.WATER_BUCKET,Items.NAUTILUS_SHELL,ModItems.ESSENCE_OF_RIPTIDE)));
+        defaultMap.put(Enchantments.CHANNELING.toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_CHANNELING)));
+        defaultMap.put(Enchantments.IMPALING.toString(), listOfIdentifiers(List.of(Items.POINTED_DRIPSTONE,Items.IRON_BARS,Items.QUARTZ,Items.DIAMOND_SWORD,ModItems.ESSENCE_OF_IMPALING)));
+        defaultMap.put(Enchantments.LOYALTY.toString(), listOfIdentifiers(List.of(Items.BONE_BLOCK,Items.GOLDEN_CARROT,ModItems.ESSENCE_OF_LOYALTY)));
+        defaultMap.put(Enchantments.RIPTIDE.toString(), listOfIdentifiers(List.of(Items.WATER_BUCKET,Items.NAUTILUS_SHELL,ModItems.ESSENCE_OF_RIPTIDE)));
 
         //Crossbow enchantment
-        defaultMap.put(Enchantments.MULTISHOT.getValue().toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_MULTISHOT)));
-        defaultMap.put(Enchantments.PIERCING.getValue().toString(), listOfIdentifiers(List.of(Items.FLINT,Items.ARROW,Items.SPECTRAL_ARROW,ModItems.ESSENCE_OF_PIERCING)));
-        defaultMap.put(Enchantments.QUICK_CHARGE.getValue().toString(), listOfIdentifiers(List.of(Items.AMETHYST_SHARD,Items.GLOWSTONE,ModItems.ESSENCE_OF_QUICK_CHARGE)));
+        defaultMap.put(Enchantments.MULTISHOT.toString(), listOfIdentifiers(List.of(ModItems.ESSENCE_OF_MULTISHOT)));
+        defaultMap.put(Enchantments.PIERCING.toString(), listOfIdentifiers(List.of(Items.FLINT,Items.ARROW,Items.SPECTRAL_ARROW,ModItems.ESSENCE_OF_PIERCING)));
+        defaultMap.put(Enchantments.QUICK_CHARGE.toString(), listOfIdentifiers(List.of(Items.AMETHYST_SHARD,Items.GLOWSTONE,ModItems.ESSENCE_OF_QUICK_CHARGE)));
 
+        // Maces don't exsist in 1.20.1
         //Mace enchantment
-        defaultMap.put(Enchantments.DENSITY.getValue().toString(), listOfIdentifiers(List.of(Items.STONE,Items.DEEPSLATE,Items.OBSIDIAN,Items.LODESTONE,ModItems.ESSENCE_OF_DENSITY)));
-        defaultMap.put(Enchantments.BREACH.getValue().toString(), listOfIdentifiers(List.of(Items.IRON_INGOT,Items.SMOOTH_STONE,Items.TNT,ModItems.ESSENCE_OF_BREACH)));
-        defaultMap.put(Enchantments.WIND_BURST.getValue().toString(), listOfIdentifiers(List.of(Items.SUGAR_CANE,Items.WIND_CHARGE,ModItems.ESSENCE_OF_WIND)));
+        // defaultMap.put(Enchantments.DENSITY.toString(), listOfIdentifiers(List.of(Items.STONE,Items.DEEPSLATE,Items.OBSIDIAN,Items.LODESTONE,ModItems.ESSENCE_OF_DENSITY)));
+        // defaultMap.put(Enchantments.BREACH.toString(), listOfIdentifiers(List.of(Items.IRON_INGOT,Items.SMOOTH_STONE,Items.TNT,ModItems.ESSENCE_OF_BREACH)));
+        // defaultMap.put(Enchantments.WIND_BURST.toString(), listOfIdentifiers(List.of(Items.SUGAR_CANE,Items.WIND_CHARGE,ModItems.ESSENCE_OF_WIND)));
 
     }
 
@@ -153,14 +153,14 @@ public class ModEnchantIngredientMap {
         Enchantment enchantment;
 
         for (String key : stringMap.keySet()) {
-            Identifier enchantId = Identifier.of(key);
+            Identifier enchantId = Identifier.tryParse(key);
             enchantment = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).get(enchantId);
 
             List<Item> ingredients = new ArrayList<>();
 
             stringMap.get(key).forEach(s -> {
                 Item temp;
-                Identifier itemId = Identifier.of(s);
+                Identifier itemId = Identifier.tryParse(s);
                 temp = Registries.ITEM.get(itemId);
                 ingredients.add(temp!=null?temp:Items.BARRIER);
             });
@@ -230,26 +230,7 @@ public class ModEnchantIngredientMap {
         return missingEntries;
     }
 
-    public static final PacketCodec<ByteBuf, Map<String, List<String>>> MAP_CODEC = new PacketCodec<ByteBuf, Map<String, List<String>>>() {
-        public Map<String, List<String>> decode(ByteBuf byteBuf) {
-            Gson gson = new GsonBuilder().create();
-            int length = byteBuf.readInt();
-            byte[] bytes = new byte[length];
-            byteBuf.readBytes(bytes);
-            String message = new String(bytes, Charsets.UTF_8);
-            Type mapType = new TypeToken<Map<String, List<String>>>() {
-            }.getType();
-            return gson.fromJson(message, mapType);
-        }
-
-        public void encode(ByteBuf byteBuf, Map<String, List<String>> blockPos) {
-            Gson gson = new GsonBuilder().create();
-            String json = gson.toJson(jsonMap);
-            byte[] bytes = json.getBytes(Charsets.UTF_8);
-            byteBuf.writeInt(bytes.length);
-            byteBuf.writeBytes(bytes);
-        }
-    };
+    
 
     public static Item getIngredientOfLevel(Enchantment enchantment, int enchantmentLevel){
         if(ENCHANTMENT_INGREDIENTS_MAP.containsKey(enchantment))
@@ -262,14 +243,14 @@ public class ModEnchantIngredientMap {
     public static void loadNeoEnchantConfig(){
 
         defaultMap.put("enchantplus:bow/accuracy_shot", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_ARROWS)));
-        defaultMap.put("enchantplus:boots/agility", listOfIdentifiers(List.of(Items.SUGAR,Items.RABBIT_STEW,Items.REDSTONE_BLOCK,Items.WIND_CHARGE,ModItems.ESSENCE_OF_AGILITY)));
+        // defaultMap.put("enchantplus:boots/agility", listOfIdentifiers(List.of(Items.SUGAR,Items.RABBIT_STEW,Items.REDSTONE_BLOCK,Items.WIND_CHARGE,ModItems.ESSENCE_OF_AGILITY)));
         defaultMap.put("enchantplus:elytra/armored", listOfIdentifiers(List.of(Items.IRON_BARS,Items.IRON_BLOCK,Items.OBSIDIAN,ModItems.ESSENCE_OF_PROTECTION)));
         defaultMap.put("enchantplus:sword/attack_speed", listOfIdentifiers(List.of(Items.GOLDEN_APPLE,ModItems.ESSENCE_OF_COMBAT)));
         defaultMap.put("enchantplus:helmet/auto_feed", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_FOOD)));
         defaultMap.put("enchantplus:tools/auto_smelt", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_SMELTING)));
-        defaultMap.put("enchantplus:bow/breezing_arrow", listOfIdentifiers(List.of(Items.CROSSBOW,Items.WIND_CHARGE,ModItems.ESSENCE_OF_ARROWS)));
+        // defaultMap.put("enchantplus:bow/breezing_arrow", listOfIdentifiers(List.of(Items.CROSSBOW,Items.WIND_CHARGE,ModItems.ESSENCE_OF_ARROWS)));
         defaultMap.put("enchantplus:helmet/bright_vision", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_SIGHT)));
-        defaultMap.put("enchantplus:chestplate/builder_arm", listOfIdentifiers(List.of(Items.CRAFTING_TABLE,Items.COBBLED_DEEPSLATE,Items.GRASS_BLOCK,Items.CRAFTER,ModItems.ESSENCE_OF_BUILDING)));
+        // defaultMap.put("enchantplus:chestplate/builder_arm", listOfIdentifiers(List.of(Items.CRAFTING_TABLE,Items.COBBLED_DEEPSLATE,Items.GRASS_BLOCK,Items.CRAFTER,ModItems.ESSENCE_OF_BUILDING)));
         defaultMap.put("enchantplus:bow/echo_shot", listOfIdentifiers(List.of(Items.ECHO_SHARD,Items.SCULK_SENSOR,ModItems.ESSENCE_OF_ARROWS)));
         defaultMap.put("enchantplus:pickaxe/experimental_bedrock_breaker", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_MINING)));
         defaultMap.put("enchantplus:bow/explosive_arrow", listOfIdentifiers(List.of(Items.TNT,Items.CREEPER_HEAD,ModItems.ESSENCE_OF_ARROWS)));
@@ -295,7 +276,7 @@ public class ModEnchantIngredientMap {
         defaultMap.put("enchantplus:pickaxe/vein_miner", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_MINING)));
         defaultMap.put("enchantplus:armor/venom_protection", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_POISON_PROTECTION)));
         defaultMap.put("enchantplus:helmet/voidless", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_LEVITATION)));
-        defaultMap.put("enchantplus:mace/wind_propulsion", listOfIdentifiers(List.of(Items.TNT,Items.WIND_CHARGE,ModItems.ESSENCE_OF_WIND)));
+        // defaultMap.put("enchantplus:mace/wind_propulsion", listOfIdentifiers(List.of(Items.TNT,Items.WIND_CHARGE,ModItems.ESSENCE_OF_WIND)));
         defaultMap.put("enchantplus:sword/xp_boost", listOfIdentifiers(List.of(Items.ENDER_EYE,ModItems.MAGIC_SHARD_DULL,ModItems.ESSENCE_OF_EXPERIENCE)));
 
     }
@@ -311,9 +292,9 @@ public class ModEnchantIngredientMap {
         defaultMap.put("nova_structures:antidote", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_POISON_PROTECTION)));
         defaultMap.put("nova_structures:ghasted", listOfIdentifiers(List.of(Items.GHAST_TEAR, Items.FIRE_CHARGE, ModItems.ESSENCE_OF_ARROWS)));
         defaultMap.put("nova_structures:gravity", listOfIdentifiers(List.of(Items.OBSIDIAN, Items.LODESTONE, ModItems.ESSENCE_OF_GRAVITY)));
-        defaultMap.put("nova_structures:illagers_bane", listOfIdentifiers(List.of(Items.CACTUS, Items.IRON_SWORD, Items.IRON_BLOCK, Items.OMINOUS_BOTTLE, ModItems.ESSENCE_OF_COMBAT)));
+        // defaultMap.put("nova_structures:illagers_bane", listOfIdentifiers(List.of(Items.CACTUS, Items.IRON_SWORD, Items.IRON_BLOCK, Items.OMINOUS_BOTTLE, ModItems.ESSENCE_OF_COMBAT)));
         defaultMap.put("nova_structures:traveler", listOfIdentifiers(List.of(Items.GOLDEN_CARROT, Items.RABBIT_FOOT, ModItems.ESSENCE_OF_AGILITY)));
-        defaultMap.put("nova_structures:outreach", listOfIdentifiers(List.of(Items.SUGAR_CANE, Items.WIND_CHARGE, Items.SUGAR_CANE, ModItems.ESSENCE_OF_REACH)));
+        // defaultMap.put("nova_structures:outreach", listOfIdentifiers(List.of(Items.SUGAR_CANE, Items.WIND_CHARGE, Items.SUGAR_CANE, ModItems.ESSENCE_OF_REACH)));
         defaultMap.put("nova_structures:photosynthesis", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_PHOTOSYNTHESIS)));
         defaultMap.put("nova_structures:wax_wings", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_WINGS)));
         defaultMap.put("nova_structures:wither_coated", listOfIdentifiers(List.of(ModItems.ESSENCE_OF_BUILDING)));
@@ -348,7 +329,7 @@ public class ModEnchantIngredientMap {
         defaultMap.put("spell_power:critical_damage",listOfIdentifiers(List.of(Items.GUNPOWDER,Items.LAPIS_LAZULI,Items.TNT,Items.FIRE_CHARGE,ModItems.ESSENCE_OF_CRITICAL_SPELL)));
         defaultMap.put("spell_power:energize",listOfIdentifiers(List.of(Items.REDSTONE,Items.END_ROD,Items.COPPER_BLOCK,Items.TRIDENT,ModItems.ESSENCE_OF_ENERGY)));
         defaultMap.put("spell_power:haste",listOfIdentifiers(List.of(Items.SUGAR,Items.GLOW_BERRIES,Items.EMERALD,Items.GLOWSTONE,ModItems.ESSENCE_OF_HASTE)));
-        defaultMap.put("spell_power:magic_protection",listOfIdentifiers(List.of(Items.IRON_INGOT,Items.COPPER_GRATE,Items.CRYING_OBSIDIAN,ModItems.ESSENCE_OF_MAGIC_PROTECTION)));
+        // defaultMap.put("spell_power:magic_protection",listOfIdentifiers(List.of(Items.IRON_INGOT,Items.COPPER_GRATE,Items.CRYING_OBSIDIAN,ModItems.ESSENCE_OF_MAGIC_PROTECTION)));
         defaultMap.put("spell_power:soulfrost",listOfIdentifiers(List.of(Items.SNOWBALL,Items.POWDER_SNOW_BUCKET,Items.PACKED_ICE,Items.BLUE_ICE,ModItems.ESSENCE_OF_SOULFROST)));
         defaultMap.put("spell_power:spell_power",listOfIdentifiers(List.of(Items.DIAMOND,Items.REDSTONE_BLOCK,Items.EMERALD_BLOCK,Items.DIAMOND_BLOCK,ModItems.ESSENCE_OF_SPELL_POWER)));
         defaultMap.put("spell_power:sunfire",listOfIdentifiers(List.of(Items.COAL,Items.SOUL_CAMPFIRE,Items.SOUL_CAMPFIRE,Items.BLAZE_POWDER,ModItems.ESSENCE_OF_SUNFIRE)));
@@ -359,4 +340,25 @@ public class ModEnchantIngredientMap {
         defaultMap.put("combat_roll:longfooted",listOfIdentifiers(List.of(Items.IRON_BOOTS,Items.LIGHTNING_ROD,Items.END_ROD,ModItems.ESSENCE_OF_LONGFOOT)));
         defaultMap.put("combat_roll:acrobat",listOfIdentifiers(List.of(Items.SUGAR,Items.REDSTONE,Items.DIAMOND_LEGGINGS,Items.CROSSBOW,ModItems.ESSENCE_OF_AGILITY)));
     }
+
+    public class MAP_CODEC {
+        public static Map<String, List<String>> decode(ByteBuf byteBuf) {
+            Gson gson = new GsonBuilder().create();
+            int length = byteBuf.readInt();
+            byte[] bytes = new byte[length];
+            byteBuf.readBytes(bytes);
+            String message = new String(bytes, Charsets.UTF_8);
+            Type mapType = new TypeToken<Map<String, List<String>>>() {
+            }.getType();
+            return gson.fromJson(message, mapType);
+        }
+
+        public static void encode(ByteBuf byteBuf) {
+            Gson gson = new GsonBuilder().create();
+            String json = gson.toJson(jsonMap);
+            byte[] bytes = json.getBytes(Charsets.UTF_8);
+            byteBuf.writeInt(bytes.length);
+            byteBuf.writeBytes(bytes);
+        }
+    };
 }

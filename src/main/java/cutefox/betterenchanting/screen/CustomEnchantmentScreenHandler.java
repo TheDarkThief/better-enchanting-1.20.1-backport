@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CustomEnchantmentScreenHandler extends ScreenHandler {
-    static final Identifier EMPTY_LAPIS_SLOT_TEXTURE = Identifier.ofVanilla("item/empty_slot_lapis_lazuli");
+    static final Identifier EMPTY_LAPIS_SLOT_TEXTURE = Identifier.tryParse("item/empty_slot_lapis_lazuli");
     private final Inventory inventory;
     private final ScreenHandlerContext context;
     public final int[] enchantmentPower;
@@ -135,7 +135,7 @@ public class CustomEnchantmentScreenHandler extends ScreenHandler {
                     int increment = 0;
                     if( possibleEnchantments != null && !possibleEnchantments.isEmpty()){
                         for(EnchantmentLevelEntry enchant : possibleEnchantments){
-                            this.enchantmentId[increment] = indexedIterable.getRawId(enchant.enchantment);
+                            this.enchantmentId[increment] = indexedIterable.getRawId(enchant);
                             this.enchantmentLevel[increment] = enchant.level;
                             increment++;
                         }
@@ -180,7 +180,7 @@ public class CustomEnchantmentScreenHandler extends ScreenHandler {
                 int enchantIngredientCost = ModEnchantmentHelper.getEnchantmentIngredientCost(enchantment,displayedEnchantLevel,enchantIngredient);
                 int tempLapisCost = (int)Math.floor(enchantLevelCost/2);
                 int lapisCost = tempLapisCost<=0?1:tempLapisCost;
-                boolean hasEnchantLevel = EnchantmentHelper.getLevel(enchantEntry1,itemToEnchant)>=displayedEnchantLevel;
+                boolean hasEnchantLevel = EnchantmentHelper.getLevel(enchantEntry1.value(),itemToEnchant)>=displayedEnchantLevel;
 
                 if(level > 0 && !ModEnchantmentHelper.itemHasPreviousLevelOfEnchant(itemToEnchant, enchantEntry1, level) && !hasEnchantLevel){
                     return false;
@@ -204,14 +204,14 @@ public class CustomEnchantmentScreenHandler extends ScreenHandler {
                         //ItemStack itemToEnchantCopy = itemToEnchant;
                         if(!player.isCreative())
                             player.applyEnchantmentCosts(itemToEnchant, enchantLevelCost);
-                        itemToEnchant.addEnchantment(enchantEntry, displayedEnchantLevel);
+                        itemToEnchant.addEnchantment(enchantEntry.value(), displayedEnchantLevel);
 
-                        lapisStack.decrementUnlessCreative(lapisCost, player);
+                        if(player.isCreative()) {lapisStack.decrement(lapisCost);}
                         if (lapisStack.isEmpty()) {
                             this.inventory.setStack(1, ItemStack.EMPTY);
                         }
 
-                        enchantMaterialStack.decrementUnlessCreative(enchantIngredientCost, player);
+                        if(player.isCreative()) {enchantMaterialStack.decrement(enchantIngredientCost);}
                         if (enchantMaterialStack.isEmpty()) {
                             this.inventory.setStack(2, ItemStack.EMPTY);
                         }
@@ -244,7 +244,7 @@ public class CustomEnchantmentScreenHandler extends ScreenHandler {
                 this.context.run((world, pos) -> {
                     this.inventory.setStack(0, new ItemStack(ModItems.MAGIC_SHARD_FULL,1));
 
-                    lapisStack.decrementUnlessCreative(SHARD_FILLING_LAPIS_COST, player);
+                    if(player.isCreative()) {lapisStack.decrement(SHARD_FILLING_LAPIS_COST);}
                     if(!player.isCreative())
                         player.applyEnchantmentCosts(itemToEnchant, SHARD_FILLING_EXPERIENCE_COST);
 
@@ -356,7 +356,7 @@ public class CustomEnchantmentScreenHandler extends ScreenHandler {
     private void autofill(ItemStack stack) {
         for (int i = 3; i < 39; ++i) {
             ItemStack itemStack =  slots.get(i).getStack();
-            if (itemStack.isEmpty() || !ItemStack.areItemsAndComponentsEqual(itemStack, stack)) continue;
+            if (itemStack.isEmpty() || !ItemStack.areEqual(itemStack, stack)) continue;
             int j = itemStack.getMaxCount();
             //int k = Math.min(j - itemStack2.getCount(), itemStack.getCount());
             ItemStack itemStack3 = itemStack.copyWithCount(itemStack.getCount());

@@ -207,7 +207,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
 
                         if(l > 0 && !ModEnchantmentHelper.itemHasPreviousLevelOfEnchant(stack, enchantEntry, l) && !hasEnchantLevel){
                             bookToDraw = ENCHANTMENT_BOOK_DISABLED;
-                            //context.drawGuiTexture(BOOK_GRAY_OVERLAY, 72+(16*l)+(4*l), 14+(16*(k-indexStartOffset)), 200, 16,16);
+                            //context.drawTexture(BOOK_GRAY_OVERLAY, 72+(16*l)+(4*l), 14+(16*(k-indexStartOffset)), 200, 16,16);
                         }
 
                         if(this.client.player.experienceLevel < enchantLevelCost && !hasEnchantLevel){
@@ -218,20 +218,20 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
                         //Draw the enchanted book texture.
                         ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
                         enchantedBook.addEnchantment(enchantEntry.value(), l+1);
-                        //context.drawGuiTexture(bookToDraw, localWidth+72+(16*l)+(4*l), localHeight+14+(16*(k-indexStartOffset)), 16, 16);
+                        //context.drawTexture(bookToDraw, localWidth+72+(16*l)+(4*l), localHeight+14+(16*(k-indexStartOffset)), 16, 16);
 
                         if(hasEnchantLevel){
-                            context.drawGuiTexture(CHECKMARK, 72+(16*l)+(4*l), 14+(16*(k-indexStartOffset)), 350, 10,10);
+                            context.drawTexture(CHECKMARK, 72+(16*l)+(4*l), 14+(16*(k-indexStartOffset)), 350, 10,10,10);
                         }
 
 
                         if(bookToDraw == ENCHANTMENT_BOOK_DISABLED)
-                            context.drawGuiTexture(ENCHANTMENT_BOOK_DISABLED, 72+(16*l)+(4*l), 14+(16*(k-indexStartOffset)), 200, 16,16);
+                            context.drawTexture(ENCHANTMENT_BOOK_DISABLED, 72+(16*l)+(4*l), 14+(16*(k-indexStartOffset)), 200, 16,16,16);
                         else
                             context.drawItem(enchantedBook, 72+(16*l)+(4*l), 14+(16*(k-indexStartOffset)),1,-150);
 
                         if (frameBook)
-                            context.drawGuiTexture(BOOK_SLOT_SELECTOR, 72+(16*l)+(4*l), 14+(16*(k-indexStartOffset)), 300, 16,16);
+                            context.drawTexture(BOOK_SLOT_SELECTOR, 72+(16*l)+(4*l), 14+(16*(k-indexStartOffset)), 300, 16, 16, 16);
 
                         RenderSystem.disableBlend();
 
@@ -469,15 +469,16 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
         return listSize > 7;
     }
 
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        int i = handler.totalEnchantForItem();
-        if (this.canScroll(i)) {
-            int j = i - 7;
-            this.indexStartOffset = MathHelper.clamp((int)((double)this.indexStartOffset - verticalAmount), 0, j);
-        }
-        return true;
-    }
+    // TODO reimplement mouse scrolled
+    // @Override
+    // public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+    //     int i = handler.totalEnchantForItem();
+    //     if (this.canScroll(i)) {
+    //         int j = i - 7;
+    //         this.indexStartOffset = MathHelper.clamp((int)((double)this.indexStartOffset - verticalAmount), 0, j);
+    //     }
+    //     return true;
+    // }
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
@@ -504,9 +505,9 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
             if (this.indexStartOffset == i - 1) {
                 m = 86;
             }
-            context.drawGuiTexture(SCROLLER, x + 56, y + 13 + m, 0, 6, 27);
+            context.drawTexture(SCROLLER, x + 56, y + 13 + m, 0, 6, 27, 27);
         } else {
-            context.drawGuiTexture(SCROLLER_DISABLED, x + 56, y + 13, 0, 6, 27);
+            context.drawTexture(SCROLLER_DISABLED, x + 56, y + 13, 0, 6, 27, 27);
         }
     }
 

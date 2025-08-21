@@ -8,7 +8,6 @@
 		"ForgingScreenHandlerMixin",
 		"LootTableMixin",
 		"MixinTradeOffers",
-		"VaultBlockEntityMixin",
 		"GrindstoneScreenHandlerMixin",
 		"ScreenHandlerMixin"
 	],

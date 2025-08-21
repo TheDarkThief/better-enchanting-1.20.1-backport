@@ -153,14 +153,14 @@ public class ModEnchantIngredientMap {
         Enchantment enchantment;
 
         for (String key : stringMap.keySet()) {
-            Identifier enchantId = Identifier.of(key);
+            Identifier enchantId = Identifier.tryParse(key);
             enchantment = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).get(enchantId);
 
             List<Item> ingredients = new ArrayList<>();
 
             stringMap.get(key).forEach(s -> {
                 Item temp;
-                Identifier itemId = Identifier.of(s);
+                Identifier itemId = Identifier.tryParse(s);
                 temp = Registries.ITEM.get(itemId);
                 ingredients.add(temp!=null?temp:Items.BARRIER);
             });

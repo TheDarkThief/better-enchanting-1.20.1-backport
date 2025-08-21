@@ -35,7 +35,7 @@ public class BetterEnchantingApi {
      */
     public static boolean addEnchantmentIngredient(String enchantmentId, List<Item> ingredients){
 
-        Identifier enchantId = Identifier.of(enchantmentId);
+        Identifier enchantId = Identifier.tryParse(enchantmentId);
         return addEnchantmentIngredient(enchantId, ingredients);
     }
 

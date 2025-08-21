@@ -158,7 +158,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
 
             context.drawTexture(TEXTURE, localWidth+63, localHeight+14, 182, 32, 16,16);
 
-            context.drawGuiTexture(MAGIC_SHARD_FULL, localWidth+72,localHeight+14,16,16);
+            context.drawTexture(MAGIC_SHARD_FULL, localWidth+72,localHeight+14,16,16);
 
             if(!playerInCreative)
                 context.drawTextWithShadow(this.textRenderer, ""+CustomEnchantmentScreenHandler.SHARD_FILLING_EXPERIENCE_COST, localWidth+18+72 - this.textRenderer.getWidth(""+CustomEnchantmentScreenHandler.SHARD_FILLING_EXPERIENCE_COST), localHeight+14+8, q);
@@ -227,10 +227,10 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
                         if(!this.client.player.isCreative() && bookToDraw != ENCHANTMENT_BOOK_DISABLED && !hasEnchantLevel)
                             context.drawTextWithShadow(this.textRenderer, ""+enchantLevelCost, localWidth+18+72+(16*l)+(4*l) - this.textRenderer.getWidth(""+enchantLevelCost), localHeight+14+8+(16*(k-indexStartOffset)), q);
 
-                        context.drawGuiTexture(bookToDraw, localWidth+72+(16*l)+(4*l), localHeight+14+(16*(k-indexStartOffset)), 16, 16);
+                        context.drawTexture(bookToDraw, localWidth+72+(16*l)+(4*l), localHeight+14+(16*(k-indexStartOffset)), 16, 16);
 
                         if(hasEnchantLevel){
-                            context.drawGuiTexture(CHECKMARK, localWidth+72+(16*l)+(4*l), localHeight+14+(16*(k-indexStartOffset)), 10, 10);
+                            context.drawTexture(CHECKMARK, localWidth+72+(16*l)+(4*l), localHeight+14+(16*(k-indexStartOffset)), 10, 10);
                         }
 
                         RenderSystem.disableBlend();
@@ -433,9 +433,9 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
             if (this.indexStartOffset == i - 1) {
                 m = 86;
             }
-            context.drawGuiTexture(SCROLLER, x + 56, y + 13 + m, 0, 6, 27);
+            context.drawTexture(SCROLLER, x + 56, y + 13 + m, 0, 6, 27);
         } else {
-            context.drawGuiTexture(SCROLLER_DISABLED, x + 56, y + 13, 0, 6, 27);
+            context.drawTexture(SCROLLER_DISABLED, x + 56, y + 13, 0, 6, 27);
         }
     }
 

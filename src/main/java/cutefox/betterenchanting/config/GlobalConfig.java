@@ -11,7 +11,7 @@ public class GlobalConfig extends MidnightConfig {
 
     public static final String GLOBAL = "Global config";
 
-    @Entry(category = GLOBAL, idMode = 2) public static List<Identifier> disabledEnchants = Lists.newArrayList(Identifier.of("namespace","enchantment"));
+    @Entry(category = GLOBAL) public static List<Identifier> disabledEnchants = Lists.newArrayList(Identifier.tryParse("namespace","enchantment"));
     @Entry(category = GLOBAL) public static boolean  allowBookInAnvil = false;
     @Comment(category = GLOBAL) public static Comment spacer1;
     @Comment(category = GLOBAL) public static Comment costSection;

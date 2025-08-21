@@ -7,7 +7,6 @@ import cutefox.betterenchanting.Util.ModEnchantmentHelper;
 import cutefox.betterenchanting.datagen.ModEnchantIngredientMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.projectile.FishingBobberEntity;

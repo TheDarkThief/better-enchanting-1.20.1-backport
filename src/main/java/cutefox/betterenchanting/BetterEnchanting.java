@@ -1,5 +1,6 @@
 package cutefox.betterenchanting;
 
+import cutefox.betterenchanting.Util.BetterEnchantingConstants;
 import cutefox.betterenchanting.Util.EnchantingIngredientMapPayload;
 import cutefox.betterenchanting.Util.Utils;
 import cutefox.betterenchanting.conditions.ModConfigConditions;
@@ -10,13 +11,14 @@ import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
@@ -57,7 +59,6 @@ public class BetterEnchanting implements ModInitializer {
 
 		//Registry.register(Registries.ITEM_GROUP, Utils.id("item_group"), ITEM_GROUP);
 		Registry.register(Registries.ITEM_GROUP, Utils.id("item_group"), generateItemGroup());
-		PayloadTypeRegistry.playS2C().register(EnchantingIngredientMapPayload.ID, EnchantingIngredientMapPayload.CODEC);
 
 		ModLootTableModifiers.modifyLootTables();
 
@@ -68,8 +69,10 @@ public class BetterEnchanting implements ModInitializer {
 	private void addEventListner(){
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 		server.execute(() -> {
-			ServerPlayNetworking.send(handler.player,
-					new EnchantingIngredientMapPayload(ModEnchantIngredientMap.jsonMap));
+			PacketByteBuf payload = PacketByteBufs.create();
+			ModEnchantIngredientMap.MAP_CODEC.encode(payload);
+			ServerPlayNetworking.send(handler.player, BetterEnchantingConstants.ENCHANT_INGREDIENT_MAP_PACKET_ID,
+					payload);
 			});
 		});
 		ServerLifecycleEvents.SERVER_STARTED.register(e -> {

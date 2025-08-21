@@ -107,7 +107,7 @@ public class ModEnchantmentHelper {
         swordEnchants.add(Enchantments.LOOTING);
         swordEnchants.add(Enchantments.KNOCKBACK);
         //TODO: ADD MODDED SWORD ENCHANTS
-        //swordEnchants.add(RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of("mod_identifier:moded_enchant")));
+        //swordEnchants.add(RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.tryParse("mod_identifier:moded_enchant")));
 
         concatEnchantList
                 .filter(enchant -> {
@@ -139,7 +139,7 @@ public class ModEnchantmentHelper {
 
     public static boolean itemHasPreviousLevelOfEnchant(ItemStack stack, RegistryEntry<Enchantment> enchant, int targetLevel){
 
-        int currentEnchantLevel = EnchantmentHelper.getLevel(enchant,stack);
+        int currentEnchantLevel = EnchantmentHelper.getLevel(enchant.value(),stack);
         return currentEnchantLevel == targetLevel;
 
     }

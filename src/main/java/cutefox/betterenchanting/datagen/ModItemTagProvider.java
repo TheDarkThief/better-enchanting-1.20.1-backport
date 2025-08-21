@@ -24,8 +24,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         getOrCreateTagBuilder(ModItemTags.LIBRARIAN_RARE_INGREDIENT)
                 .add(Items.EXPERIENCE_BOTTLE)
-                .add(Items.TURTLE_SCUTE)
-                .add(Items.WIND_CHARGE)
+                // .add(Items.TURTLE_SCUTE)
+                // .add(Items.WIND_CHARGE)
                 .add(Items.HEART_OF_THE_SEA)
                 .add(Items.NAUTILUS_SHELL)
                 .add(Items.QUARTZ)
@@ -142,8 +142,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ItemTags.FIRE_ASPECT_ENCHANTABLE)
                 .add(ModItems.ENCHANTMENT_CATALYST);
 
-        getOrCreateTagBuilder(ItemTags.MACE_ENCHANTABLE)
-                .add(ModItems.ENCHANTMENT_CATALYST);
+        // getOrCreateTagBuilder(ItemTags.MACE_ENCHANTABLE)
+        //         .add(ModItems.ENCHANTMENT_CATALYST);
 
         getOrCreateTagBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE)
                 .add(ModItems.ENCHANTMENT_CATALYST);
