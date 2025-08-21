@@ -1,7 +1,6 @@
 package cutefox.betterenchanting;
 
 import cutefox.betterenchanting.Util.BetterEnchantingConstants;
-import cutefox.betterenchanting.Util.EnchantingIngredientMapPayload;
 import cutefox.betterenchanting.Util.Utils;
 import cutefox.betterenchanting.conditions.ModConfigConditions;
 import cutefox.betterenchanting.config.GlobalConfig;
