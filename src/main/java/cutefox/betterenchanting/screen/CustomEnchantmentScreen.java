@@ -136,13 +136,13 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
         super.drawForeground(context,mouseX,mouseY);
         if(!client.player.isCreative())
-            context.drawText(this.textRenderer, Text.of("XP : "+this.client.player.experienceLevel),10, 74, Colors.GREEN, true);
+            context.drawText(this.textRenderer, Text.of("XP : "+this.client.player.experienceLevel),10, 74, 0x00FF00, true);
 
         int localWidth = (this.width - this.backgroundWidth) / 2;
         int localHeight = (this.height - this.backgroundHeight) / 2;
 
         boolean playerInCreative = client.player.isCreative();
-        int q = Colors.GREEN;
+        int q = 0x00FF00;
 
         int numberOfPossibleEnchants = 0;
         Identifier bookToDraw;
@@ -183,7 +183,7 @@ public class CustomEnchantmentScreen extends HandledScreen<CustomEnchantmentScre
                 //Draw books and connexions
                 for(int l = 0; l < this.handler.enchantmentLevel[k]; l++){
 
-                    q = Colors.GREEN;
+                    q = 0x00FF00;
                     int r = mouseX - (localWidth+72+(16*l)+(4*l));
                     int s = mouseY - (localHeight+14+(16*(k-indexStartOffset)));
 

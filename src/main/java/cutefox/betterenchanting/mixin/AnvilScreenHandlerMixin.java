@@ -97,7 +97,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandlerMixin{
         if(input.getStack(1).getItem().equals(ModItems.ENCHANTMENT_CATALYST)){
 
             input.setStack(0,ItemStack.EMPTY);
-            if(EnchantmentHelper.hasEnchantments(stack)){//Don't destroy the catalyst if none of it's enchant where transferred to the item
+            if(!EnchantmentHelper.get(stack).isEmpty()){//Don't destroy the catalyst if none of it's enchant where transferred to the item
                 Random rand = Random.create();
                 int breakChance = rand.nextBetween(0,100);
                 if (breakChance <= GlobalConfig.catalystGivebackChance) //10 percent chance to return an empty catalyst
